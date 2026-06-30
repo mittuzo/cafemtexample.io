@@ -1,2 +1,0 @@
-# cafemtexample.io
-cafe example
