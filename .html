@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Artisanal Hearth | Premium Old-World Café Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom Property Layout Tokens for Old-World Warmth & Minimalism */
+        :root {
+            --color-bg-canvas: #fbf9f4;       /* Soft organic paper canvas */
+            --color-bg-card: #f5f2e9;         /* Muted cream contrast block */
+            --color-text-primary: #242721;    /* Soft charcoal olive */
+            --color-text-secondary: #5f645a;  /* Subdued earth tint */
+            --color-accent-terracotta: #bc5a36; /* Warm brick red */
+            --color-accent-gold: #c29d68;       /* Muted historic brass */
+            --color-border: #e6dfcf;          /* Minimalist clean hairlines */
+            --font-editorial: 'Playfair Display', Georgia, serif;
+            --font-functional: 'Plus Jakarta Sans', Helvetica, Arial, sans-serif;
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Core Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font-functional);
+        }
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--color-bg-canvas);
+        }
+        body {
+            color: var(--color-text-primary);
+            background-color: var(--color-bg-canvas);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Global Structural Grid Layouts */
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+        .editorial-title {
+            font-family: var(--font-editorial);
+            font-size: 46px;
+            font-weight: 400;
+            line-height: 1.2;
+            color: var(--color-text-primary);
+            margin-bottom: 20px;
+        }
+        .italic-subtitle {
+            font-family: var(--font-editorial);
+            font-style: italic;
+            font-size: 20px;
+            color: var(--color-accent-terracotta);
+            margin-bottom: 10px;
+            display: block;
+        }
+        .hairline-separator {
+            width: 100%;
+            height: 1px;
+            background-color: var(--color-border);
+            margin: 60px 0;
+        }
+
+        /* Premium Minimal Navigation Menu */
+        header {
+            background-color: rgba(251, 249, 244, 0.96);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--color-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 95px;
+        }
+        .brand-identity {
+            font-family: var(--font-editorial);
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+        }
+        .brand-identity span {
+            color: var(--color-accent-terracotta);
+        }
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+        nav a {
+            text-decoration: none;
+            color: var(--color-text-secondary);
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            padding: 6px 0;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        nav a:hover, nav a.active-route {
+            color: var(--color-text-primary);
+        }
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--color-accent-terracotta);
+            transition: var(--transition-smooth);
+        }
+        nav a:hover::after, nav a.active-route::after {
+            width: 100%;
+        }
+
+        /* Multi-Page Vanilla View Router Layout Engine */
+        .app-page {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            padding: 60px 0 100px 0;
+        }
+        .app-page.active-page {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* High-Converting CTA Buttons */
+        .btn-artisan {
+            display: inline-block;
+            background-color: var(--color-accent-terracotta);
+            color: #ffffff;
+            padding: 14px 35px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 1px;
+            border: 1px solid var(--color-accent-terracotta);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .btn-artisan:hover {
+            background-color: transparent;
+            color: var(--color-accent-terracotta);
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            background-color: transparent;
+            color: var(--color-text-primary);
+            border: 1px solid var(--color-text-primary);
+            margin-left: 15px;
+        }
+        .btn-outline:hover {
+            background-color: var(--color-text-primary);
+            color: var(--color-bg-canvas);
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================================================
+           PAGE 1: HOME VIEW STYLES (ENLARGED PIX CORES)
+           ========================================================================== */
+        .hero-split {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .hero-content h1 {
+            font-family: var(--font-editorial);
+            font-size: 62px;
+            line-height: 1.15;
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
+        .hero-content p {
+            font-size: 18px;
+            color: var(--color-text-secondary);
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+        .hero-graphic-box {
+            background-color: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        .hero-graphic-box::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            bottom: 15px;
+            left: 15px;
+            right: 15px;
+            border: 1px solid rgba(194, 157, 104, 0.3);
+            pointer-events: none;
+        }
+        
+        /* Premium Enlarged Photo Frame - Upgraded For High Visibility */
+        .hero-embedded-photo-frame {
+            width: 340px;
+            height: 320px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+            padding: 6px;
+            background-color: var(--color-bg-canvas);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.03);
+            z-index: 2;
+        }
+        .hero-embedded-photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 2px;
+            filter: sepia(0.12) contrast(1.03);
+        }
+        .hero-graphic-logo {
+            font-family: var(--font-editorial);
+            font-size: 44px;
+            color: var(--color-accent-gold);
+            line-height: 1;
+            margin-bottom: 5px;
+            z-index: 2;
+        }
+        
+        /* Modular Feature Highlights Grid */
+        .features-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 20px;
+        }
+        .feature-item-card h3 {
+            font-family: var(--font-editorial);
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 12px;
+        }
+        .feature-item-card p {
+            font-size: 15px;
+            color: var(--color-text-secondary);
+        }
+
+        /* ==========================================================================
+           PAGE 2: MENU SHOWCASE VIEW STYLES 
+           ========================================================================== */
+        .menu-layout-header {
+            text-align: center;
+            max-width: 650px;
+            margin: 0 auto 60px auto;
+        }
+        .menu-category-block {
+            margin-bottom: 60px;
+        }
+        .category-headline {
+            font-family: var(--font-editorial);
+            font-size: 28px;
+            font-weight: 400;
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 12px;
+            margin-bottom: 40px;
+            letter-spacing: 0.5px;
+        }
+        .menu-items-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+        .menu-item-card {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            padding-bottom: 25px;
+            border-bottom: 1px dashed rgba(230, 223, 207, 0.7);
+        }
+        .menu-item-image-box {
+            width: 100px;
+            height: 100px;
+            flex-shrink: 0;
+            border: 1px solid var(--color-border);
+            padding: 4px;
+            background-color: #fff;
+            overflow: hidden;
+        }
+        .menu-item-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(0.1) sepia(0.15);
+            transition: var(--transition-smooth);
+        }
+        .menu-item-card:hover .menu-item-image-box img {
+            transform: scale(1.05);
+            filter: grayscale(0) sepia(0);
+        }
+        .item-text-content {
+            flex-grow: 1;
+        }
+        .item-header-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 6px;
+            gap: 10px;
+        }
+        .item-header-meta h4 {
+            font-family: var(--font-editorial);
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .tag-organic {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background-color: var(--color-bg-card);
+            border: 1px solid var(--color-accent-gold);
+            color: var(--color-text-primary);
+            padding: 1px 5px;
+            border-radius: 1px;
+            font-weight: 600;
+            margin-left: 8px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .item-text-content p {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+        }
+        .item-price-tag {
+            font-family: var(--font-editorial);
+            font-size: 19px;
+            font-weight: 600;
+            color: var(--color-accent-terracotta);
+            white-space: nowrap;
+        }
+
+        /* ==========================================================================
+           PAGE 3: HERITAGE & LOCATION VIEW STYLES
+           ========================================================================== */
+        .heritage-split-grid {
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: 70px;
+            align-items: flex-start;
+        }
+        .story-block-narrative h2 {
+            margin-bottom: 25px;
+        }
+        .story-block-narrative p {
+            font-size: 16px;
+            color: var(--color-text-secondary);
+            margin-bottom: 20px;
+        }
+        .location-operational-card {
+            background-color: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            padding: 45px;
+        }
+        .info-group-block {
+            margin-bottom: 35px;
+        }
+        .info-group-block:last-of-type {
+            margin-bottom: 0;
+        }
+        .info-group-block h3 {
+            font-family: var(--font-editorial);
+            font-size: 22px;
+            font-weight: 400;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(36, 39, 33, 0.1);
+            padding-bottom: 6px;
+        }
+        .info-group-block p, .info-group-block li {
+            font-size: 15px;
+            color: var(--color-text-secondary);
+            list-style: none;
+        }
+        .schedule-list-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        /* Premium Minimalist Brand Footer */
+        footer {
+            border-top: 1px solid var(--color-border);
+            padding: 50px 0;
+            text-align: center;
+            background-color: var(--color-bg-canvas);
+        }
+        footer p {
+            font-size: 13px;
+            color: var(--color-text-secondary);
+            letter-spacing: 0.5px;
+        }
+
+        /* ==========================================================================
+           RESPONSIVE MOBILE GRAPHIC ENGINE OVERRIDES
+           ========================================================================== */
+        @media (max-width: 900px) {
+            .hero-split, .heritage-split-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .menu-items-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .hero-content h1 {
+                font-size: 44px;
+            }
+            .hero-embedded-photo-frame {
+                width: 100%;
+                max-width: 320px;
+                height: 280px;
+            }
+            .hero-graphic-box {
+                height: auto;
+                padding: 40px 20px;
+            }
+            .features-row {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .header-inner {
+                flex-direction: column;
+                height: auto;
+                padding: 20px 0;
+                gap: 15px;
+            }
+            nav {
+                gap: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-inner">
+            <div class="brand-identity" onclick="navigateToPage('home')">
+                THE HEARTH<span>.</span>
+            </div>
+            <nav id="app-nav-bar">
+                <a onclick="navigateToPage('home')" class="nav-trigger active-route" data-target="home">Home</a>
+                <a onclick="navigateToPage('menu')" class="nav-trigger" data-target="menu">Café Menu</a>
+                <a onclick="navigateToPage('heritage')" class="nav-trigger" data-target="heritage">Our Heritage</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="view-home" class="container app-page active-page">
+        <section class="hero-split">
+            <div class="hero-content">
+                <span class="italic-subtitle">Boutique Kitchen & Roastery</span>
+                <h1>Slow roasted coffee & house-baked goods.</h1>
+                <p>Welcome to a demonstration of premium digital design. This layout is tuned explicitly for high-end hospitality operations looking to present an artisanal experience without busy clutter.</p>
+                <div>
+                    <a onclick="navigateToPage('menu')" class="btn-artisan">Explore The Menu</a>
+                    <a onclick="navigateToPage('heritage')" class="btn-artisan btn-outline">Our Location</a>
+                </div>
+            </div>
+            <div class="hero-graphic-box">
+                <div class="hero-embedded-photo-frame">
+                    <img src="image_bd1cff.jpg" alt="Artisanal Concept Graphic Showcase">
+                </div>
+                <div class="hero-graphic-logo">𐃏</div>
+                <h2 style="font-family: var(--font-editorial); font-weight:400; margin-bottom:10px; z-index: 2;">Est. 2013</h2>
+                <p style="font-size:14px; color: var(--color-text-secondary); max-width:280px; font-style:italic; z-index: 2;">"Simplicity is the ultimate sophistication."</p>
+            </div>
+        </section>
+
+        <div class="hairline-separator"></div>
+
+        <section class="features-row">
+            <div class="feature-item-card">
+                <h3>01. Single-Origin Roast</h3>
+                <p>Our micro-lot beans are sourced ethically and roasted weekly to highlight natural profiles of citrus, chocolate, and stone fruits.</p>
+            </div>
+            <div class="feature-item-card">
+                <h3>02. Wild Yeast Pastry</h3>
+                <p>Our croissants and sourdough provisions are rolled by hand daily using a heritage culture starter for optimal depth of flavor.</p>
+            </div>
+            <div class="feature-item-card">
+                <h3>03. Minimalist Presentation</h3>
+                <p>We reject standard over-designed commercial storefronts to deliver an intentional focus on absolute raw ingredient quality.</p>
+            </div>
+        </section>
+    </main>
+
+    <main id="view-menu" class="container app-page">
+        <section class="menu-layout-header">
+            <span class="italic-subtitle">Fresh Provisions</span>
+            <h2 class="editorial-title">Our Café Provisions</h2>
+            <p style="color: var(--color-text-secondary); margin-top:10px;">Crafted each morning using local dairy, heritage grains, and house-roasted coffee elements.</p>
+        </section>
+
+        <section class="menu-category-block">
+            <h3 class="category-headline">Specialty Coffee & Elixirs</h3>
+            <div class="menu-items-grid">
+                
+                <div class="menu-item-card">
+                    <div class="menu-item-image-box">
+                        <img src="unnamed.webp" alt="Artisanal Single-Origin Espresso Shot">
+                    </div>
+                    <div class="item-text-content">
+                        <div class="item-header-meta">
+                            <h4>Single-Origin Espresso <span class="tag-organic">Micro-Lot</span></h4>
+                            <div class="item-price-tag">$4.50</div>
+                        </div>
+                        <p>Rotating single-origin selection extracted precisely over filtered mineral reserves. Notes of dark plum and cocoa finish.</p>
+                    </div>
+                </div>
+
+                <div class="menu-item-card">
+                    <div class="menu-item-image-box">
+                        <img src="unnamed.webp" alt="Flat White Coffee">
+                    </div>
+                    <div class="item-text-content">
+                        <div class="item-header-meta">
+                            <h4>Heirloom Flat White</h4>
+                            <div class="item-price-tag">$5.00</div>
+                        </div>
+                        <p>House blend double ristretto shot combined seamlessly with silky velvet micro-foam dairy texturing.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="menu-category-block">
+            <h3 class="category-headline">House-Baked Breakfast Plates</h3>
+            <div class="menu-items-grid">
+                
+                <div class="menu-item-card">
+                    <div class="menu-item-image-box">
+                        <img src="aceto_pizzeria.jpg" alt="Avocado Toast Sourdough">
+                    </div>
+                    <div class="item-text-content">
+                        <div class="item-header-meta">
+                            <h4>Hearth Avocado Sourdough <span class="tag-organic">Organic</span></h4>
+                            <div class="item-price-tag">$18.50</div>
+                        </div>
+                        <p>Hand-crushed avocado spread on thick toasted slices of 72-hour sourdough bread, drizzled with estate cold oil and sea salt flakes.</p>
+                    </div>
+                </div>
+
+                <div class="menu-item-card">
+                    <div class="menu-item-image-box">
+                        <img src="unnamed.webp" alt="Almond Croissant Plate">
+                    </div>
+                    <div class="item-text-content">
+                        <div class="item-header-meta">
+                            <h4>Frangipane Almond Croissant</h4>
+                            <div class="item-price-tag">$8.50</div>
+                        </div>
+                        <p>Twice-baked wild yeast flaky croissant layer packed tightly with sweet almond cream pastry filling and organic toasted almond slivers.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <main id="view-heritage" class="container app-page">
+        <section class="heritage-split-grid">
+            <div class="story-block-narrative">
+                <span class="italic-subtitle">Our Philosophy</span>
+                <h2 class="editorial-title">Built on roasting craft, serving our local coffee community.</h2>
+                <p>Our coffee studio began with a simple mission: bringing absolute transparency and culinary focus to the morning routine. By sourcing exceptional micro-lots directly from ethical family mills, we bridge the gap between small global growers and local coffee lovers.</p>
+                <p>This interactive demonstration highlights how a hospitality workspace can showcase its values cleanly. By relying entirely on minimalism, warm layout scales, and beautiful typography choices, your café project signals deep craftsmanship before the patron ever steps through your physical doorway.</p>
+            </div>
+            
+            <div class="location-operational-card">
+                <div class="info-group-block">
+                    <h3>The Coffee Studio</h3>
+                    <p style="font-weight: 500; color: var(--color-text-primary);">The Hearth Roastery Studio</p>
+                    <p>Suite 4B, 108 St Georges Terrace</p>
+                    <p>Perth CBD, Western Australia, 6000</p>
+                </div>
+
+                <div class="info-group-block">
+                    <h3>Operational Schedule</h3>
+                    <div class="schedule-list-row"><span>Monday</span><strong>Closed</strong></div>
+                    <div class="schedule-list-row"><span>Tuesday - Thursday</span><strong>6:30 AM – 3:00 PM</strong></div>
+                    <div class="schedule-list-row"><span>Friday & Saturday</span><strong>6:30 AM – 4:00 PM</strong></div>
+                    <div class="schedule-list-row"><span>Sunday</span><strong>7:00 AM – 3:00 PM</strong></div>
+                </div>
+
+                <div class="info-group-block">
+                    <h3>Direct Inquiries</h3>
+                    <p>Phone: <a href="tel:0435392201" style="color: var(--color-accent-terracotta); text-decoration:none; font-weight:600;">0435 392 201</a></p>
+                    <p>Inquiries: studio@theartisanaghearth.com</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 The Artisanal Hearth Concept. Designed as a clean architecture business demonstration.</p>
+        </div>
+    </footer>
+
+    <script>
+        /**
+         * Orchestrates seamless client-side view changes mimicking multi-file architectures
+         * @param {string} targetPageId - The slug identity of the target page
+         */
+        function navigateToPage(targetPageId) {
+            // 1. Fetch all page components and navigation elements
+            const pages = document.querySelectorAll('.app-page');
+            const navLinks = document.querySelectorAll('.nav-trigger');
+            
+            // 2. Clear down active layout states
+            pages.forEach(page => {
+                page.classList.remove('active-page');
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active-route');
+            });
+
+            // 3. Mount and animate targeted view selection
+            const targetPage = document.getElementById(`view-${targetPageId}`);
+            if (targetPage) {
+                targetPage.classList.add('active-page');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // 4. Accentuate correct top navigation indicators
+            const correspondingLink = document.querySelector(`.nav-trigger[data-target="${targetPageId}"]`);
+            if (correspondingLink) {
+                correspondingLink.classList.add('active-route');
+            }
+        }
+    </script>
+</body>
+</html>
